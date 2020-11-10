@@ -1,0 +1,43 @@
+
+
+
+.cnav-nav {    
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 350px;
+    height: 100vh;
+}
+.cnav-nav ul li {
+    list-style: none;
+}
+.cnav-item {
+    border-left: 0.3rem #fff solid;
+    cursor: pointer;
+}
+.cnav-item:hover {
+    background-color: rgba(255,255,255,0.1);
+    text-decoration: none;
+}
+@media only screen and (min-width: 800px) {
+    .cnav-main {
+        display: flex;
+    }
+    .cnav-body {
+        margin-left: 30%;
+        width: 70%;
+    }
+    .cnav-nav {
+        width: 30%;        
+    }
+}
+
+@media only screen and (min-width: 1300px) {
+    .cnav-body {
+        margin-left: 390px;
+        width: calc(100% - 390px);
+    }
+    .cnav-nav {
+        width: 390px;
+    }
+}
