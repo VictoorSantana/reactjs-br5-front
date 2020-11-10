@@ -50,6 +50,27 @@ export default {
             .then(result => { return result })
             .catch(error => { return error });
 
+    },
+
+    put: async (data, servico) => {
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        
+        var raw = JSON.stringify(data);
+        
+        var requestOptions = {
+          method: 'PUT',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
+        };
+        
+        return fetch('http://127.0.0.1:5000/api/' + servico, requestOptions)
+            .then(response => { return response.text() })
+            .then(result => { return result })
+            .catch(error => { return error });
+
     }
 
 }

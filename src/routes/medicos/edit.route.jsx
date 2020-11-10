@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import NavegadorComponente from '../../components/navegador/navegadorComponente';
 import _s from '../../service/chamada';
 import _f from '../../util/formfast';
@@ -35,8 +36,6 @@ class RouteEditMedicos extends Component {
 
         const obj = _f.getObject(event.target);
 
-        console.log(obj);
-
         let arrEspcs = this.state.medEsc;
 
         const novaEspc = {
@@ -48,12 +47,33 @@ class RouteEditMedicos extends Component {
         this.setState({ medEsc: arrEspcs });
     }
 
+    removeEspc = (id) => {
+
+        const newArr = this.state.medEsc.filter(function(item) {
+            return item._id !== id
+        });
+
+        this.setState({ medEsc: newArr });
+    }
+
     handleSubmitNovo = async (event) => {
         event.preventDefault();
 
-        const request = _f.getObject(event.target);
+        let especialidades = [];
+        for (var i = 0; i < this.state.medEsc.length; i++) {
+            especialidades.push(this.state.medEsc[i]._id);
+        }
 
-        
+        const idMedico = (this.props.match.params.id);
+
+        const response = await _s.put({
+            especialidades,
+            nome: this.state.medNome,
+            CRM: this.state.medCrm,
+        }, 'medico/id/' + idMedico);
+
+        this.props.history.push('/medicos');
+
     }
 
 
@@ -62,19 +82,23 @@ class RouteEditMedicos extends Component {
             <NavegadorComponente nomeRota="Editar Médico" subTexto="Lorem ipsum dolor.">
                 <div className="row">
                     <div className="col-md-4">
-                        <form>
+                        <form onSubmit={this.handleSubmitNovo}>
                             <div className="form-group">
-                                <label className="mb-0 text-secondary d-block"> Nome </label>
-                                <input type="text" className="form-control" />
+                                <label className="mb-0 text-secondary d-block" > Nome </label>
+                                <input type="text" className="form-control" onChange={(e) => this.setState({ medNome: e.value })} value={this.state.medNome} />
                             </div>
                             <div className="form-group">
                                 <label className="mb-0 text-secondary d-block"> CRM </label>
-                                <input type="text" className="form-control" />
+                                <input type="text" className="form-control" onChange={(e) => this.setState({ medCrm: e.value })} value={this.state.medCrm} />
+                            </div>
+                            <div className="form-group">
+                                <Link to="/medicos" className="btn btn-secondary mr-1 text-white"> Cancelar </Link>
+                                <button className="btn btn-primary" type="submit">Salvar</button>
                             </div>
 
                         </form>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-6">
                         <div className="form-group">
                             <label className="mb-0 text-secondary d-block"> Especialidades </label>
 
@@ -83,12 +107,12 @@ class RouteEditMedicos extends Component {
                                     {
                                         this.state.especs ? (
                                             this.state.especs.map((espc) =>
-                                                <option value={`${espc._id}_${espc.nome}`}>{espc.nome}</option>
+                                                <option value={`${espc._id}_${espc.nome}`} key={espc._id}>{espc.nome}</option>
                                             )
                                         ) : ('')
                                     }
                                 </select>
-                                <button type="submit" className="btn btn-link"> <i class="far fa-plus-square"></i> </button>
+                                <button type="submit" className="btn btn-link"> <i class="far fa-plus-square"></i> </button>                                
                             </form>
 
 
@@ -100,7 +124,10 @@ class RouteEditMedicos extends Component {
                                 {
                                     this.state.medEsc ? (
                                         this.state.medEsc.map((espc) =>
-                                            <h6 className="text-center"> {espc.nome} </h6>
+                                            <div className="position-relative py-2" key={espc._id}>
+                                                <button type="button" onClick={() => this.removeEspc(espc._id)} className="btn btn-link text-danger position-absolute" style={{right: '0px', top: '0px'}}> <i className="fas fa-times"></i> </button>
+                                                <h6 className="text-center m-0"> {espc.nome} </h6>                                                
+                                            </div>
                                         )
                                     ) : ('')
 
