@@ -16,7 +16,7 @@ export default {
         };
 
         return fetch('http://127.0.0.1:5000/api/' + servico, requestOptions)
-            .then(response => { return response.text() })
+            .then(response => { return response })
             .then(result => { return result })
             .catch(error => { return error });
 

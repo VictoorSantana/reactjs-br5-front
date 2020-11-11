@@ -7,6 +7,10 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import RouteListaMedicos from './routes/medicos/lista.route';
 import RouteShowMedico from './routes/medicos/show.route';
 import RouteEditMedicos from './routes/medicos/edit.route';
+import RouteAddMedico from './routes/medicos/add.route';
+
+import RouteListaConsultorio from './routes/consultorio/lista.route';
+import RouteEditConsultorio from './routes/consultorio/edit.route';
 
 
 // const PrivateRoute = ({ component: Component, ... rest }) => (
@@ -31,6 +35,10 @@ const Routes = () => (
             <Route exact path="/medicos" component={(props) => <RouteListaMedicos {...props}></RouteListaMedicos>}></Route>            
             <Route exact path="/medicos/show/:id" component={(props) => <RouteShowMedico {...props}></RouteShowMedico>}></Route>            
             <Route exact path="/medicos/edit/:id" component={(props) => <RouteEditMedicos {...props}></RouteEditMedicos>}></Route>            
+            <Route exact path="/medicos/add/" component={(props) => <RouteAddMedico {...props}></RouteAddMedico>}></Route>            
+
+            <Route exact path="/consultorios" component={(props) => <RouteListaConsultorio {...props}></RouteListaConsultorio>}></Route>            
+            <Route exact path="/consultorios/edit/:id" component={(props) => <RouteEditConsultorio {...props}></RouteEditConsultorio>}></Route>            
         </Switch>
   </BrowserRouter>
 );
